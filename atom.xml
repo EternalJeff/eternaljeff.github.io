@@ -1,45 +1,334 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jiang-wen.github.io</id>
-    <title>Gridea</title>
-    <updated>2020-06-15T12:15:48.556Z</updated>
+    <title>jiangwen.blog</title>
+    <updated>2020-06-15T12:45:54.424Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jiang-wen.github.io"/>
     <link rel="self" href="https://jiang-wen.github.io/atom.xml"/>
     <subtitle>温故而知新</subtitle>
     <logo>https://jiang-wen.github.io/images/avatar.png</logo>
     <icon>https://jiang-wen.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, Gridea</rights>
+    <rights>All rights reserved 2020, jiangwen.blog</rights>
     <entry>
-        <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://jiang-wen.github.io/post/hello-gridea/</id>
-        <link href="https://jiang-wen.github.io/post/hello-gridea/">
+        <title type="html"><![CDATA[DockerToolbox安装]]></title>
+        <id>https://jiang-wen.github.io/post/dockertoolbox-an-zhuang/</id>
+        <link href="https://jiang-wen.github.io/post/dockertoolbox-an-zhuang/">
         </link>
-        <updated>2018-12-11T16:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="https://gridea.dev/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
+        <updated>2020-06-15T12:37:22.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="一-使用dockertoolbox原因">一、使用DockerToolbox原因</h4>
+<ol>
+<li>Docker for Windows 基于 Hyperv，同时使用安卓模拟器需要开启Intel Virtual Technology(VT-x)，而Hyper-v与VT-x冲突，不可同时开启；</li>
+<li>Hyper-v是Windows 10 专业版才有的功能，家庭版虽然也能通过一些方法开启，但相对来说会比较麻烦</li>
+</ol>
+<blockquote>
+<p>DockerToolbox实际上是利用 VirtualBox 创建一个虚拟机，实现docker 守护进程的运行</p>
+</blockquote>
+<h4 id="二-安装dockertoolbox">二、安装DockerToolbox</h4>
+<ol>
+<li>下载DockerToolbox</li>
+</ol>
+<p>阿里云镜像下载地址： http://mirrors.aliyun.com/docker-toolbox/windows/docker-toolbox/<br>
+Docker分为CE 和 EE两个版本 CE为社区免费版，EE为企业版，这里下载CE版就好了</p>
+<ol start="2">
+<li>安装DockerToolbox</li>
+</ol>
+<p>直接双击下载好的<code>.exe</code>文件即可安装，安装过程中可以自己选择安装的组件<br>
+其中VirtualBox组件如果已经安装过了，可以取消勾选；git 也最好不要勾选，默认提供的版本较低，建议自行安装</p>
+<ol start="3">
+<li>
+<p>双击桌面上生成的Docker Quickstart Terminal 图标即可自动开始运行<br>
+<img src="https://upload-images.jianshu.io/upload_images/2305018-b564e6836f270081.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Docker Quickstart Terminal" loading="lazy"><br>
+下面是正常运行的样子，实际上如果没有正确安装，可能会出现一些错误<br>
+<img src="https://upload-images.jianshu.io/upload_images/2305018-8e6436aa8a97011c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Docker Quickstart Terminal" loading="lazy"></p>
+</li>
+<li>
+<p>安装docker虚拟机<br>
+如果使用Docker Quickstart Terminal，会自动安装一个的default虚拟机，但是有时可能会因为boot2docker.iso文件不存在或者版本比较老，会自动去github下载，导致时间比较长甚至失败。<strong>因此可以去Docker Toolbox的安装目录下复制boot2docker.iso文件到<code>C:\Users\用户名\.docker\machine\cache</code>目录</strong>，再在cmd或者powershell执行如下命令创建一个名为<code>default</code>的虚拟机<br>
+<strong>此时可以指定 <code>--registry-mirror=https://registry.docker-cn.com</code>选项设置镜像加速</strong></p>
+</li>
+</ol>
+<pre><code>docker-machine.exe create --driver virtualbox --virtualbox-boot2docker-url=boot2docker.iso default
+</code></pre>
+<blockquote>
+<p>这里使用了docker-machine命令，具体使用可以查看 <a href="https://www.runoob.com/docker/docker-machine.html">https://www.runoob.com/docker/docker-machine.html</a><br>
+ps：<code>docker-machine.exe</code> 虽然是一个可执行文件，但是直接运行是没有效果的，需要带参数</p>
+</blockquote>
+<p>安装成功后使用<code>docker version</code> 命令验证安装成果，输出如下</p>
+<pre><code>$ docker version                                                                                                        Client:
+ Version:       18.03.0-ce
+ API version:   1.37
+ Go version:    go1.9.4
+ Git commit:    0520e24302
+ Built: Fri Mar 23 08:31:36 2018
+ OS/Arch:       windows/amd64
+ Experimental:  false
+ Orchestrator:  swarm
+
+Server:
+ Engine:
+  Version:      18.03.0-ce
+  API version:  1.37 (minimum version 1.12)
+  Go version:   go1.9.4
+  Git commit:   0520e24
+  Built:        Wed Mar 21 23:14:54 2018
+  OS/Arch:      linux/amd64
+  Experimental: false
+</code></pre>
+<p>这里能够使用<code>docker</code>命令是因为<code>Docker Quickstart Terminal</code>利用<code>git bash</code>执行了 DockerToolbox 安装目录下的 <code>start.sh</code>shell脚本，为我们创建了一个与VirtualBox虚拟机交互的环境</p>
+<h4 id="三-设置docker镜像加速">三、设置docker镜像加速</h4>
+<p>如果已经在创建docker-machine时指定了<code>--registry-mirror</code>，那这一步可以省略<br>
+执行<code>docker-machine ssh default</code> 命令进入刚才创建的<code>default</code>虚拟机</p>
+<pre><code>$ docker-machine.exe ssh default
+                        ##         .
+                  ## ## ##        ==
+               ## ## ## ## ##    ===
+           /&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;\___/ ===
+      ~~~ {~~ ~~~~ ~~~ ~~~~ ~~~ ~ /  ===- ~~~
+           \______ o           __/
+             \    \         __/
+              \____\_______/
+ _                 _   ____     _            _
+| |__   ___   ___ | |_|___ \ __| | ___   ___| | _____ _ __
+| '_ \ / _ \ / _ \| __| __) / _` |/ _ \ / __| |/ / _ \ '__|
+| |_) | (_) | (_) | |_ / __/ (_| | (_) | (__|   &lt;  __/ |
+|_.__/ \___/ \___/ \__|_____\__,_|\___/ \___|_|\_\___|_|
+Boot2Docker version 18.03.0-ce, build HEAD : 404ee40 - Thu Mar 22 17:12:23 UTC 2018
+Docker version 18.03.0-ce, build 0520e24
+docker@default:~$
+</code></pre>
+<p>执行以下命令设置镜像地址</p>
+<pre><code>sudo sed -i &quot;s|EXTRA_ARGS='|EXTRA_ARGS='--registry-mirror=https://docker.mirrors.ustc.edu.cn |g&quot; /var/lib/boot2docker/profile
+</code></pre>
+<p>此处镜像地址使用的是<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fregistry.docker-cn.com">https://registry.docker-cn.com</a>，可自行更换</p>
+<p>安装完后执行<code>exit</code>命令退出，使用<code>docker-machine restart default</code>重启虚拟机</p>
+<h4 id="四-配置共享文件夹">四、 配置共享文件夹</h4>
+<p>需要实时同步文件就需要配置VirtualBox的共享目录<br>
+<img src="https://upload-images.jianshu.io/upload_images/2305018-091cb6d52300e04a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="共享文件夹配置" loading="lazy"></p>
+<p>选择需要共享的文件夹，勾选自动挂载后就会将指定的Windows下的共享文件夹路径<code>D:\Workspace</code>自动挂载到虚拟机根目录下的<code>/workspace</code>，也就是上图中指定的挂载点</p>
+<p>保存后需要执行<code>docker-machine restart default</code>重启虚拟机使挂载生效</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[使用Windows包管理器Scoop安装SwitchHosts]]></title>
+        <id>https://jiang-wen.github.io/post/shi-yong-windows-bao-guan-li-qi-scoop-an-zhuang-switchhosts/</id>
+        <link href="https://jiang-wen.github.io/post/shi-yong-windows-bao-guan-li-qi-scoop-an-zhuang-switchhosts/">
+        </link>
+        <updated>2020-06-15T12:33:14.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="为当前windows账户启用powershell">为当前Windows账户启用PowerShell</h4>
+<p><code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code></p>
+<h4 id="配置安装目录">配置安装目录</h4>
+<p>如果需要配置全局安装目录，需要PowerShell在管理员模式下运行<br>
+可以使用 <code>win + q</code>搜索打开PowerShell管理员模式，也可以执行以下命令<br>
+<code>Start-Process PowerShell -verb runAs</code></p>
+<p>用户安装的程序和scoop本身位于C:\Users<user>\scoop。<br>
+全局安装的程序（–global）位于C:\ProgramData\scoop。<br>
+可以通过环境变量更改这些设置。具体步骤如下：</p>
+<pre><code># 将Scoop安装到自定义目录(命令行方式)
+$env:SCOOP='D:\Scoop'
+[Environment]::SetEnvironmentVariable('SCOOP', $env:SCOOP, 'User')
+
+# 将Scoop配置为将全局程序安装到自定义目录 SCOOP_GLOBAL(命令行方式)，这一步可省略
+$env:SCOOP_GLOBAL='D:\GlobalScoopApps'
+[Environment]::SetEnvironmentVariable('SCOOP_GLOBAL', $env:SCOOP_GLOBAL, 'Machine')
+</code></pre>
+<h4 id="安装scoop">安装Scoop</h4>
+<p>执行以下命令中的一个即可安装</p>
+<pre><code>Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+# 或
+iwr -useb get.scoop.sh | iex
+</code></pre>
+<p>安装完成后执行<code>scoop help</code>验证是否安装成功</p>
+<pre><code>PS C:\Windows\system32&gt; scoop help
+Usage: scoop &lt;command&gt; [&lt;args&gt;]
+
+Some useful commands are:
+
+alias       Manage scoop aliases
+bucket      Manage Scoop buckets
+cache       Show or clear the download cache
+checkup     Check for potential problems
+cleanup     Cleanup apps by removing old versions
+config      Get or set configuration values
+create      Create a custom app manifest
+depends     List dependencies for an app
+export      Exports (an importable) list of installed apps
+help        Show help for a command
+hold        Hold an app to disable updates
+home        Opens the app homepage
+info        Display information about an app
+install     Install apps
+list        List installed apps
+prefix      Returns the path to the specified app
+reset       Reset an app to resolve conflicts
+search      Search available apps
+status      Show status and check for new app versions
+unhold      Unhold an app to enable updates
+uninstall   Uninstall an app
+update      Update apps, or Scoop itself
+virustotal  Look for app's hash on virustotal.com
+which       Locate a shim/executable (similar to 'which' on Linux)
+
+
+Type 'scoop help &lt;command&gt;' to get help for a specific command.
+</code></pre>
+<h4 id="配置代理加速">配置代理加速</h4>
+<p>由于众所周知的原因，使用scoop安装网速会比较慢，这里配置一下代理加速，也就是本地的代理地址了<br>
+<code>scoop config proxy 127.0.0.1:7890</code><br>
+这一步也可以通过修改scoop的配置文件<code>~/.config/scoop/config.json</code>实现</p>
+<h4 id="软件安装">软件安装</h4>
+<ol>
+<li>添加bucket软件源<br>
+<code>scoop bucket add extras</code></li>
+<li>安装aria2<br>
+aria2是一款下载工具，安装以后可以提高scoop下载的速度<br>
+<code>scoop install aria2</code></li>
+<li>安装switchhosts<br>
+switchhosts可以很方便的管理和切换hosts<br>
+<code>scoop install switchhosts</code></li>
+<li>安装figlet<br>
+figlet可以将你输入的字符打印在终端上<br>
+<code>scoop install figlet</code></li>
+</ol>
+<pre><code>PS C:\Windows\system32&gt; figlet I love you
+ ___   _
+|_ _| | | _____   _____   _   _  ___  _   _
+ | |  | |/ _ \ \ / / _ \ | | | |/ _ \| | | |
+ | |  | | (_) \ V /  __/ | |_| | (_) | |_| |
+|___| |_|\___/ \_/ \___|  \__, |\___/ \__,_|
+                          |___/
+</code></pre>
+<h4 id="其他">其他</h4>
+<p>Scoop 有许多优秀的Bucket，你可以通过运行<code>scoop bucket known</code>来获取官方支持的bucket:</p>
+<p>bucket源推荐：</p>
+<pre><code>scoop bucket add main # 默认
+scoop bucket add extras # 推荐
+scoop bucket add versions
+scoop bucket add nightlies
+scoop bucket add nirsoft
+scoop bucket add php
+scoop bucket add nerd-fonts
+scoop bucket add nonportable
+scoop bucket add java
+scoop bucket add games
+scoop bucket add jetbrains # 推荐
+</code></pre>
+<p>国内常用软件：<br>
+微信、QQ、钉钉……</p>
+<pre><code>scoop bucket add dorado https://github.com/h404bi/dorado
+</code></pre>
+<p>小新Bucket：<br>
+FSCapture、Shadowsocksrr、UninstallTool、Notepad3、Wechat……</p>
+<pre><code>scoop bucket add dajiu https://github.com/dajiiu/dajiu-scoop
+</code></pre>
+<p>其他：</p>
+<pre><code>scoop bucket add dodorz https://github.com/dodorz/scoop-bucket
+</code></pre>
+<h4 id="参考文章">参考文章</h4>
+<p><a href="%5Bhttps://www.h404bi.com/blog/2018/05/talk-about-scoop-the-package-manager-for-windows-again/%5D(https://www.h404bi.com/blog/2018/05/talk-about-scoop-the-package-manager-for-windows-again/)">再谈谈 Scoop 这个 Windows 下的软件包管理器</a><br>
+<a href="%5Bhttps://blog.csdn.net/ke1950523491/article/details/105430003?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-10.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-10.nonecase%5D(https://blog.csdn.net/ke1950523491/article/details/105430003?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-10.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-10.nonecase)">Windows下Scoop安装、配置与使用</a><br>
+<a href="%5Bhttps://www.limufang.com/post/569.html%5D(https://www.limufang.com/post/569.html)">Windows | Scoop软件包管理神器</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[本地搭建docker registry私有仓库]]></title>
+        <id>https://jiang-wen.github.io/post/ben-di-da-jian-docker-registry-si-you-cang-ku/</id>
+        <link href="https://jiang-wen.github.io/post/ben-di-da-jian-docker-registry-si-you-cang-ku/">
+        </link>
+        <updated>2020-06-15T12:31:31.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="一-搭建docker-registry">一、搭建docker registry</h4>
+<ol>
+<li>运行docker pull拉取registry镜像</li>
+</ol>
+<pre><code>docker pull registry:latest
+</code></pre>
+<ol start="2">
+<li>通过registry镜像启动一个容器<br>
+为了使仓库内的镜像持久化存储，这里需要挂载registry容器内的<code>/var/lib/registry</code>目录至宿主机</li>
+</ol>
+<pre><code>docker run -d -v /www/wwwroot/docker-registry:/var/lib/registry \
+ -p 5000:5000 \ 
+--restart=always \ 
+--name registry \ 
+registry:latest
+</code></pre>
+<ol start="3">
+<li>测试安装是否成功<br>
+执行<code>docker ps</code>命令查看registry容器是否启动</li>
+</ol>
+<pre><code>docker@default:~$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+d60ac96bcf3e        registry            &quot;/entrypoint.sh /etc…&quot;   4 hours ago         Up 3 hours          0.0.0.0:5000-&gt;5000/tcp   registry
+</code></pre>
+<p>访问<code>http://192.168.99.108:9501/v2/_catalog</code></p>
+<pre><code>root@default:/# curl -XGET 192.168.99.108:5000/v2/_catalog
+{&quot;repositories&quot;:[]}
+</code></pre>
+<h4 id="二-配置insecure-registry">二、 配置insecure-registry</h4>
+<p>由于docker对安全性的要求，默认情况下使用的是secure-registry，需要配置tls证书，使用未配置tls的仓库就需要指定<code>insecure-registry</code></p>
+<p>有下面几种情况：</p>
+<ol>
+<li>修改docker daemon.json的配置<br>
+如果是直接<code>yum -y install docker</code>安装docker，那么修改<code>/etc/docker/daemon.json</code>配置文件，在<code>insecure-registries</code>字段中增加一项</li>
+</ol>
+<pre><code>{
+  ...
+  “insecure-registries”: [“192.168.99.108:9501”]
+  ...
+}
+</code></pre>
+<p>保存后执行<code>systemctl daemon-reload</code>并重启docker</p>
+<ol start="2">
+<li>在已启动的docker-machine中配置<br>
+首先<code>docker-machine ssh default</code>进入docker-machine创建的虚拟机中<br>
+再执行在boot2docker配置文件中<code>EXTRA_ARS中</code>增加<code>--insecure-registry</code>的配置</li>
+</ol>
+<pre><code>EXTRA_ARGS='
+--label provider=virtualbox
+--insecure-registry=http://&lt;宿主机ip&gt;:9501
+'
+CACERT=/var/lib/boot2docker/ca.pem
+DOCKER_HOST='-H tcp://0.0.0.0:2376'
+DOCKER_STORAGE=aufs
+DOCKER_TLS=auto
+SERVERKEY=/var/lib/boot2docker/server-key.pem
+SERVERCERT=/var/lib/boot2docker/server.pem
+</code></pre>
+<ol start="3">
+<li>首次启动docker-machine 或者 minikube时指定--insecure-registry</li>
+</ol>
+<pre><code># 创建docker-machine
+docker-machine create --driver virtualbox \ 
+--virtualbox-boot2docker-url=boot2docker.iso \ 
+--insecure-registry='http://192.168.99.108:9501' \
+--registry-mirror='https://registry.docker-cn.com' \
+default
+
+# 启动minikube
+minikube start --driver=virtualbox \ 
+--image-repository='registry.cn-hangzhou.aliyuncs.com/google_containers' \ 
+--registry-mirror='https://reg-mirror.qiniu.com' \ 
+--iso-url='https://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/iso/minikube-v1.8.0.iso' \
+--insecure-registry='http://192.168.99.108:9501'
+</code></pre>
+<h4 id="三-使用私有仓库">三、使用私有仓库</h4>
+<p>这里我们使用busybox镜像（占用空间比较小，速度会快一点）来测试docker insecure-registry是否可用</p>
+<ol>
+<li>首先拉取busybox镜像<br>
+<code>docker pull busybox</code></li>
+<li>给busybox镜像打个标签<br>
+<code>docker tag busybox 192.168.99.108:5000/busybox</code></li>
+<li>推送镜像至registry<br>
+<code>docker push 192.168.99.108:5000/busybox</code></li>
+<li>查看registry内的镜像</li>
+</ol>
+<pre><code>root@default:/# curl -XGET 192.168.99.108:5000/v2/_catalog
+{&quot;repositories&quot;:[&quot;busybox&quot;]}
+</code></pre>
+<ol start="5">
+<li>拉取registry内的镜像<br>
+<code>docker pull 192.168.99.108:5000/busybox</code></li>
+</ol>
 ]]></content>
     </entry>
 </feed>

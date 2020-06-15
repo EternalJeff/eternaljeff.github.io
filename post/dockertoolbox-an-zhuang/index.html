@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>DockerToolbox安装 | jiangwen.blog</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jiang-wen.github.io/favicon.ico?v=1592225102622">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://jiang-wen.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://jiang-wen.github.io">
+        <img class="avatar" src="https://jiang-wen.github.io/images/avatar.png?v=1592225102622" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://jiang-wen.github.io">
+        <h1 class="site-title">jiangwen.blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">DockerToolbox安装</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-06-15</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://jiang-wen.github.io/tag/XWXWWb5C6/">
+                    docker
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <h4 id="一-使用dockertoolbox原因">一、使用DockerToolbox原因</h4>
+<ol>
+<li>Docker for Windows 基于 Hyperv，同时使用安卓模拟器需要开启Intel Virtual Technology(VT-x)，而Hyper-v与VT-x冲突，不可同时开启；</li>
+<li>Hyper-v是Windows 10 专业版才有的功能，家庭版虽然也能通过一些方法开启，但相对来说会比较麻烦</li>
+</ol>
+<blockquote>
+<p>DockerToolbox实际上是利用 VirtualBox 创建一个虚拟机，实现docker 守护进程的运行</p>
+</blockquote>
+<h4 id="二-安装dockertoolbox">二、安装DockerToolbox</h4>
+<ol>
+<li>下载DockerToolbox</li>
+</ol>
+<p>阿里云镜像下载地址： http://mirrors.aliyun.com/docker-toolbox/windows/docker-toolbox/<br>
+Docker分为CE 和 EE两个版本 CE为社区免费版，EE为企业版，这里下载CE版就好了</p>
+<ol start="2">
+<li>安装DockerToolbox</li>
+</ol>
+<p>直接双击下载好的<code>.exe</code>文件即可安装，安装过程中可以自己选择安装的组件<br>
+其中VirtualBox组件如果已经安装过了，可以取消勾选；git 也最好不要勾选，默认提供的版本较低，建议自行安装</p>
+<ol start="3">
+<li>
+<p>双击桌面上生成的Docker Quickstart Terminal 图标即可自动开始运行<br>
+<img src="https://upload-images.jianshu.io/upload_images/2305018-b564e6836f270081.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Docker Quickstart Terminal" loading="lazy"><br>
+下面是正常运行的样子，实际上如果没有正确安装，可能会出现一些错误<br>
+<img src="https://upload-images.jianshu.io/upload_images/2305018-8e6436aa8a97011c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Docker Quickstart Terminal" loading="lazy"></p>
+</li>
+<li>
+<p>安装docker虚拟机<br>
+如果使用Docker Quickstart Terminal，会自动安装一个的default虚拟机，但是有时可能会因为boot2docker.iso文件不存在或者版本比较老，会自动去github下载，导致时间比较长甚至失败。<strong>因此可以去Docker Toolbox的安装目录下复制boot2docker.iso文件到<code>C:\Users\用户名\.docker\machine\cache</code>目录</strong>，再在cmd或者powershell执行如下命令创建一个名为<code>default</code>的虚拟机<br>
+<strong>此时可以指定 <code>--registry-mirror=https://registry.docker-cn.com</code>选项设置镜像加速</strong></p>
+</li>
+</ol>
+<pre><code>docker-machine.exe create --driver virtualbox --virtualbox-boot2docker-url=boot2docker.iso default
+</code></pre>
+<blockquote>
+<p>这里使用了docker-machine命令，具体使用可以查看 <a href="https://www.runoob.com/docker/docker-machine.html">https://www.runoob.com/docker/docker-machine.html</a><br>
+ps：<code>docker-machine.exe</code> 虽然是一个可执行文件，但是直接运行是没有效果的，需要带参数</p>
+</blockquote>
+<p>安装成功后使用<code>docker version</code> 命令验证安装成果，输出如下</p>
+<pre><code>$ docker version                                                                                                        Client:
+ Version:       18.03.0-ce
+ API version:   1.37
+ Go version:    go1.9.4
+ Git commit:    0520e24302
+ Built: Fri Mar 23 08:31:36 2018
+ OS/Arch:       windows/amd64
+ Experimental:  false
+ Orchestrator:  swarm
+
+Server:
+ Engine:
+  Version:      18.03.0-ce
+  API version:  1.37 (minimum version 1.12)
+  Go version:   go1.9.4
+  Git commit:   0520e24
+  Built:        Wed Mar 21 23:14:54 2018
+  OS/Arch:      linux/amd64
+  Experimental: false
+</code></pre>
+<p>这里能够使用<code>docker</code>命令是因为<code>Docker Quickstart Terminal</code>利用<code>git bash</code>执行了 DockerToolbox 安装目录下的 <code>start.sh</code>shell脚本，为我们创建了一个与VirtualBox虚拟机交互的环境</p>
+<h4 id="三-设置docker镜像加速">三、设置docker镜像加速</h4>
+<p>如果已经在创建docker-machine时指定了<code>--registry-mirror</code>，那这一步可以省略<br>
+执行<code>docker-machine ssh default</code> 命令进入刚才创建的<code>default</code>虚拟机</p>
+<pre><code>$ docker-machine.exe ssh default
+                        ##         .
+                  ## ## ##        ==
+               ## ## ## ## ##    ===
+           /&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;\___/ ===
+      ~~~ {~~ ~~~~ ~~~ ~~~~ ~~~ ~ /  ===- ~~~
+           \______ o           __/
+             \    \         __/
+              \____\_______/
+ _                 _   ____     _            _
+| |__   ___   ___ | |_|___ \ __| | ___   ___| | _____ _ __
+| '_ \ / _ \ / _ \| __| __) / _` |/ _ \ / __| |/ / _ \ '__|
+| |_) | (_) | (_) | |_ / __/ (_| | (_) | (__|   &lt;  __/ |
+|_.__/ \___/ \___/ \__|_____\__,_|\___/ \___|_|\_\___|_|
+Boot2Docker version 18.03.0-ce, build HEAD : 404ee40 - Thu Mar 22 17:12:23 UTC 2018
+Docker version 18.03.0-ce, build 0520e24
+docker@default:~$
+</code></pre>
+<p>执行以下命令设置镜像地址</p>
+<pre><code>sudo sed -i &quot;s|EXTRA_ARGS='|EXTRA_ARGS='--registry-mirror=https://docker.mirrors.ustc.edu.cn |g&quot; /var/lib/boot2docker/profile
+</code></pre>
+<p>此处镜像地址使用的是<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fregistry.docker-cn.com">https://registry.docker-cn.com</a>，可自行更换</p>
+<p>安装完后执行<code>exit</code>命令退出，使用<code>docker-machine restart default</code>重启虚拟机</p>
+<h4 id="四-配置共享文件夹">四、 配置共享文件夹</h4>
+<p>需要实时同步文件就需要配置VirtualBox的共享目录<br>
+<img src="https://upload-images.jianshu.io/upload_images/2305018-091cb6d52300e04a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="共享文件夹配置" loading="lazy"></p>
+<p>选择需要共享的文件夹，勾选自动挂载后就会将指定的Windows下的共享文件夹路径<code>D:\Workspace</code>自动挂载到虚拟机根目录下的<code>/workspace</code>，也就是上图中指定的挂载点</p>
+<p>保存后需要执行<code>docker-machine restart default</code>重启虚拟机使挂载生效</p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://jiang-wen.github.io/post/shi-yong-windows-bao-guan-li-qi-scoop-an-zhuang-switchhosts/">
+              <h3 class="post-title">
+                下一篇：使用Windows包管理器Scoop安装SwitchHosts
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jiang-wen.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

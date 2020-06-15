@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>本地搭建docker registry私有仓库 | jiangwen.blog</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jiang-wen.github.io/favicon.ico?v=1592225102622">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://jiang-wen.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://jiang-wen.github.io">
+        <img class="avatar" src="https://jiang-wen.github.io/images/avatar.png?v=1592225102622" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://jiang-wen.github.io">
+        <h1 class="site-title">jiangwen.blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">本地搭建docker registry私有仓库</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-06-15</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://jiang-wen.github.io/tag/XWXWWb5C6/">
+                    docker
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <h4 id="一-搭建docker-registry">一、搭建docker registry</h4>
+<ol>
+<li>运行docker pull拉取registry镜像</li>
+</ol>
+<pre><code>docker pull registry:latest
+</code></pre>
+<ol start="2">
+<li>通过registry镜像启动一个容器<br>
+为了使仓库内的镜像持久化存储，这里需要挂载registry容器内的<code>/var/lib/registry</code>目录至宿主机</li>
+</ol>
+<pre><code>docker run -d -v /www/wwwroot/docker-registry:/var/lib/registry \
+ -p 5000:5000 \ 
+--restart=always \ 
+--name registry \ 
+registry:latest
+</code></pre>
+<ol start="3">
+<li>测试安装是否成功<br>
+执行<code>docker ps</code>命令查看registry容器是否启动</li>
+</ol>
+<pre><code>docker@default:~$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+d60ac96bcf3e        registry            &quot;/entrypoint.sh /etc…&quot;   4 hours ago         Up 3 hours          0.0.0.0:5000-&gt;5000/tcp   registry
+</code></pre>
+<p>访问<code>http://192.168.99.108:9501/v2/_catalog</code></p>
+<pre><code>root@default:/# curl -XGET 192.168.99.108:5000/v2/_catalog
+{&quot;repositories&quot;:[]}
+</code></pre>
+<h4 id="二-配置insecure-registry">二、 配置insecure-registry</h4>
+<p>由于docker对安全性的要求，默认情况下使用的是secure-registry，需要配置tls证书，使用未配置tls的仓库就需要指定<code>insecure-registry</code></p>
+<p>有下面几种情况：</p>
+<ol>
+<li>修改docker daemon.json的配置<br>
+如果是直接<code>yum -y install docker</code>安装docker，那么修改<code>/etc/docker/daemon.json</code>配置文件，在<code>insecure-registries</code>字段中增加一项</li>
+</ol>
+<pre><code>{
+  ...
+  “insecure-registries”: [“192.168.99.108:9501”]
+  ...
+}
+</code></pre>
+<p>保存后执行<code>systemctl daemon-reload</code>并重启docker</p>
+<ol start="2">
+<li>在已启动的docker-machine中配置<br>
+首先<code>docker-machine ssh default</code>进入docker-machine创建的虚拟机中<br>
+再执行在boot2docker配置文件中<code>EXTRA_ARS中</code>增加<code>--insecure-registry</code>的配置</li>
+</ol>
+<pre><code>EXTRA_ARGS='
+--label provider=virtualbox
+--insecure-registry=http://&lt;宿主机ip&gt;:9501
+'
+CACERT=/var/lib/boot2docker/ca.pem
+DOCKER_HOST='-H tcp://0.0.0.0:2376'
+DOCKER_STORAGE=aufs
+DOCKER_TLS=auto
+SERVERKEY=/var/lib/boot2docker/server-key.pem
+SERVERCERT=/var/lib/boot2docker/server.pem
+</code></pre>
+<ol start="3">
+<li>首次启动docker-machine 或者 minikube时指定--insecure-registry</li>
+</ol>
+<pre><code># 创建docker-machine
+docker-machine create --driver virtualbox \ 
+--virtualbox-boot2docker-url=boot2docker.iso \ 
+--insecure-registry='http://192.168.99.108:9501' \
+--registry-mirror='https://registry.docker-cn.com' \
+default
+
+# 启动minikube
+minikube start --driver=virtualbox \ 
+--image-repository='registry.cn-hangzhou.aliyuncs.com/google_containers' \ 
+--registry-mirror='https://reg-mirror.qiniu.com' \ 
+--iso-url='https://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/iso/minikube-v1.8.0.iso' \
+--insecure-registry='http://192.168.99.108:9501'
+</code></pre>
+<h4 id="三-使用私有仓库">三、使用私有仓库</h4>
+<p>这里我们使用busybox镜像（占用空间比较小，速度会快一点）来测试docker insecure-registry是否可用</p>
+<ol>
+<li>首先拉取busybox镜像<br>
+<code>docker pull busybox</code></li>
+<li>给busybox镜像打个标签<br>
+<code>docker tag busybox 192.168.99.108:5000/busybox</code></li>
+<li>推送镜像至registry<br>
+<code>docker push 192.168.99.108:5000/busybox</code></li>
+<li>查看registry内的镜像</li>
+</ol>
+<pre><code>root@default:/# curl -XGET 192.168.99.108:5000/v2/_catalog
+{&quot;repositories&quot;:[&quot;busybox&quot;]}
+</code></pre>
+<ol start="5">
+<li>拉取registry内的镜像<br>
+<code>docker pull 192.168.99.108:5000/busybox</code></li>
+</ol>
+
+          </div>
+        </div>
+
+        
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jiang-wen.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

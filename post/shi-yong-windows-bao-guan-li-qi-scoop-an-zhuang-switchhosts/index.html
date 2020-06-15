@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>使用Windows包管理器Scoop安装SwitchHosts | jiangwen.blog</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jiang-wen.github.io/favicon.ico?v=1592225102622">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://jiang-wen.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://jiang-wen.github.io">
+        <img class="avatar" src="https://jiang-wen.github.io/images/avatar.png?v=1592225102622" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://jiang-wen.github.io">
+        <h1 class="site-title">jiangwen.blog</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">使用Windows包管理器Scoop安装SwitchHosts</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-06-15</span>
+            
+          </div>
+          <div class="post-content">
+            <h4 id="为当前windows账户启用powershell">为当前Windows账户启用PowerShell</h4>
+<p><code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code></p>
+<h4 id="配置安装目录">配置安装目录</h4>
+<p>如果需要配置全局安装目录，需要PowerShell在管理员模式下运行<br>
+可以使用 <code>win + q</code>搜索打开PowerShell管理员模式，也可以执行以下命令<br>
+<code>Start-Process PowerShell -verb runAs</code></p>
+<p>用户安装的程序和scoop本身位于C:\Users<user>\scoop。<br>
+全局安装的程序（–global）位于C:\ProgramData\scoop。<br>
+可以通过环境变量更改这些设置。具体步骤如下：</p>
+<pre><code># 将Scoop安装到自定义目录(命令行方式)
+$env:SCOOP='D:\Scoop'
+[Environment]::SetEnvironmentVariable('SCOOP', $env:SCOOP, 'User')
+
+# 将Scoop配置为将全局程序安装到自定义目录 SCOOP_GLOBAL(命令行方式)，这一步可省略
+$env:SCOOP_GLOBAL='D:\GlobalScoopApps'
+[Environment]::SetEnvironmentVariable('SCOOP_GLOBAL', $env:SCOOP_GLOBAL, 'Machine')
+</code></pre>
+<h4 id="安装scoop">安装Scoop</h4>
+<p>执行以下命令中的一个即可安装</p>
+<pre><code>Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+# 或
+iwr -useb get.scoop.sh | iex
+</code></pre>
+<p>安装完成后执行<code>scoop help</code>验证是否安装成功</p>
+<pre><code>PS C:\Windows\system32&gt; scoop help
+Usage: scoop &lt;command&gt; [&lt;args&gt;]
+
+Some useful commands are:
+
+alias       Manage scoop aliases
+bucket      Manage Scoop buckets
+cache       Show or clear the download cache
+checkup     Check for potential problems
+cleanup     Cleanup apps by removing old versions
+config      Get or set configuration values
+create      Create a custom app manifest
+depends     List dependencies for an app
+export      Exports (an importable) list of installed apps
+help        Show help for a command
+hold        Hold an app to disable updates
+home        Opens the app homepage
+info        Display information about an app
+install     Install apps
+list        List installed apps
+prefix      Returns the path to the specified app
+reset       Reset an app to resolve conflicts
+search      Search available apps
+status      Show status and check for new app versions
+unhold      Unhold an app to enable updates
+uninstall   Uninstall an app
+update      Update apps, or Scoop itself
+virustotal  Look for app's hash on virustotal.com
+which       Locate a shim/executable (similar to 'which' on Linux)
+
+
+Type 'scoop help &lt;command&gt;' to get help for a specific command.
+</code></pre>
+<h4 id="配置代理加速">配置代理加速</h4>
+<p>由于众所周知的原因，使用scoop安装网速会比较慢，这里配置一下代理加速，也就是本地的代理地址了<br>
+<code>scoop config proxy 127.0.0.1:7890</code><br>
+这一步也可以通过修改scoop的配置文件<code>~/.config/scoop/config.json</code>实现</p>
+<h4 id="软件安装">软件安装</h4>
+<ol>
+<li>添加bucket软件源<br>
+<code>scoop bucket add extras</code></li>
+<li>安装aria2<br>
+aria2是一款下载工具，安装以后可以提高scoop下载的速度<br>
+<code>scoop install aria2</code></li>
+<li>安装switchhosts<br>
+switchhosts可以很方便的管理和切换hosts<br>
+<code>scoop install switchhosts</code></li>
+<li>安装figlet<br>
+figlet可以将你输入的字符打印在终端上<br>
+<code>scoop install figlet</code></li>
+</ol>
+<pre><code>PS C:\Windows\system32&gt; figlet I love you
+ ___   _
+|_ _| | | _____   _____   _   _  ___  _   _
+ | |  | |/ _ \ \ / / _ \ | | | |/ _ \| | | |
+ | |  | | (_) \ V /  __/ | |_| | (_) | |_| |
+|___| |_|\___/ \_/ \___|  \__, |\___/ \__,_|
+                          |___/
+</code></pre>
+<h4 id="其他">其他</h4>
+<p>Scoop 有许多优秀的Bucket，你可以通过运行<code>scoop bucket known</code>来获取官方支持的bucket:</p>
+<p>bucket源推荐：</p>
+<pre><code>scoop bucket add main # 默认
+scoop bucket add extras # 推荐
+scoop bucket add versions
+scoop bucket add nightlies
+scoop bucket add nirsoft
+scoop bucket add php
+scoop bucket add nerd-fonts
+scoop bucket add nonportable
+scoop bucket add java
+scoop bucket add games
+scoop bucket add jetbrains # 推荐
+</code></pre>
+<p>国内常用软件：<br>
+微信、QQ、钉钉……</p>
+<pre><code>scoop bucket add dorado https://github.com/h404bi/dorado
+</code></pre>
+<p>小新Bucket：<br>
+FSCapture、Shadowsocksrr、UninstallTool、Notepad3、Wechat……</p>
+<pre><code>scoop bucket add dajiu https://github.com/dajiiu/dajiu-scoop
+</code></pre>
+<p>其他：</p>
+<pre><code>scoop bucket add dodorz https://github.com/dodorz/scoop-bucket
+</code></pre>
+<h4 id="参考文章">参考文章</h4>
+<p><a href="%5Bhttps://www.h404bi.com/blog/2018/05/talk-about-scoop-the-package-manager-for-windows-again/%5D(https://www.h404bi.com/blog/2018/05/talk-about-scoop-the-package-manager-for-windows-again/)">再谈谈 Scoop 这个 Windows 下的软件包管理器</a><br>
+<a href="%5Bhttps://blog.csdn.net/ke1950523491/article/details/105430003?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-10.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-10.nonecase%5D(https://blog.csdn.net/ke1950523491/article/details/105430003?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-10.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-10.nonecase)">Windows下Scoop安装、配置与使用</a><br>
+<a href="%5Bhttps://www.limufang.com/post/569.html%5D(https://www.limufang.com/post/569.html)">Windows | Scoop软件包管理神器</a></p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://jiang-wen.github.io/post/ben-di-da-jian-docker-registry-si-you-cang-ku/">
+              <h3 class="post-title">
+                下一篇：本地搭建docker registry私有仓库
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jiang-wen.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
