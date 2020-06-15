@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jiang-wen.github.io</id>
-    <title>jiangwen.blog</title>
-    <updated>2020-06-15T13:01:15.274Z</updated>
+    <title>jiangwenの笔记</title>
+    <updated>2020-06-15T13:02:53.903Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jiang-wen.github.io"/>
     <link rel="self" href="https://jiang-wen.github.io/atom.xml"/>
     <subtitle>温故而知新</subtitle>
     <logo>https://jiang-wen.github.io/images/avatar.png</logo>
     <icon>https://jiang-wen.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, jiangwen.blog</rights>
+    <rights>All rights reserved 2020, jiangwenの笔记</rights>
     <entry>
         <title type="html"><![CDATA[DockerToolbox安装]]></title>
         <id>https://jiang-wen.github.io/post/dockertoolbox-an-zhuang/</id>
